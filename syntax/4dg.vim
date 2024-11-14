@@ -25,6 +25,11 @@ syn match 4dgUserLabel "^\s*\zs\I\i*\s*:$"
 syn match 4dgComment "//.*$"
 syn region 4dgComment start="/\*" end="\*/"
 
+syn match 4dgSub "\v%(^|\s)\zs\$" containedin=4dgConstant
+
+syn cluster 4dgConstGroup contains=4dgNumber,4dgComment
+syn region 4dgConstant start="^\s*\zs#constant" skip="\\$" end="$" keepend contains=@4dgConstGroup
+
 syn keyword 4dgStatement goto break continue return
 syn keyword 4dgLabel case default
 
@@ -33,6 +38,8 @@ syn keyword 4dgLabel case default
 hi def link 4dgNumber Number
 hi def link 4dgUserLabel Label
 hi def link 4dgComment Comment
+hi def link 4dgSub Operator
+hi def link 4dgConstant Macro
 hi def link 4dgStatement Statement
 hi def link 4dgLabel Label
 
