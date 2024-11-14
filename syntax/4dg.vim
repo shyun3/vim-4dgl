@@ -59,6 +59,8 @@ syn keyword 4dgKeyword func endfunc gosub endsub
 syn keyword 4dgStatement goto break continue return
 syn keyword 4dgLabel case default
 
+syn match 4dgFunc "\<\h\w*\ze\_s*("
+
 " Define the default highlighting
 " Only applies when an item doesn't have highlighting yet
 hi def link 4dgNumber Number
@@ -81,6 +83,7 @@ hi def link 4dgRepeat Repeat
 hi def link 4dgKeyword Keyword
 hi def link 4dgStatement Statement
 hi def link 4dgLabel Label
+hi def link 4dgFunc Function
 
 let b:current_syntax = "4dg"
 
