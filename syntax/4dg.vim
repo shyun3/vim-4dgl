@@ -53,6 +53,9 @@ syn match 4dgPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
 syn region 4dgPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" skip="\\$" end="$" keepend contains=@4dgDirGroup
 syn match 4dgInclude display "\v^\s*\zs#%(inherit|platform)>"
 
+syn keyword 4dgCond if else endif switch endswitch
+syn keyword 4dgRepeat while wend repeat until forever for next
+syn keyword 4dgKeyword func endfunc gosub endsub
 syn keyword 4dgStatement goto break continue return
 syn keyword 4dgLabel case default
 
@@ -73,6 +76,9 @@ hi def link 4dgPreCondit PreCondit
 hi def link 4dgPreConditMatch 4dgPreCondit
 hi def link 4dgPreProc PreProc
 hi def link 4dgInclude Include
+hi def link 4dgCond Conditional
+hi def link 4dgRepeat Repeat
+hi def link 4dgKeyword Keyword
 hi def link 4dgStatement Statement
 hi def link 4dgLabel Label
 
