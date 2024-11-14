@@ -27,11 +27,19 @@ syn region 4dgComment start="/\*" end="\*/"
 
 " Constants
 syn match 4dgSub "\v%(^|\s)\zs\$" contained
-syn cluster 4dgConstGroup contains=4dgNumber,4dgComment,4dgSub
+syn cluster 4dgConstGroup contains=4dgNumber,4dgComment,4dgSub,4dgChar,4dgString
 syn region 4dgConstant start="\v^\s*\zs#constant>" skip="\\$" end="$" keepend contains=@4dgConstGroup
 syn region 4dgConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend contains=@4dgConstGroup
 
 syn keyword 4dgType var
+
+" Characters
+syn match 4dgSpecialChar "\\[\\abfnrtv']" contained
+syn match 4dgChar "'[^']*'" contains=4dgSpecialChar
+
+" Strings
+syn match 4dgSpecialStrChar '\\[\\abfnrtv"]' contained
+syn region 4dgString start='"' skip='\v\\\\|\\"' end='"' contains=4dgSpecialStrChar
 
 syn keyword 4dgStatement goto break continue return
 syn keyword 4dgLabel case default
@@ -44,6 +52,10 @@ hi def link 4dgComment Comment
 hi def link 4dgSub Operator
 hi def link 4dgConstant Macro
 hi def link 4dgType Type
+hi def link 4dgSpecialChar SpecialChar
+hi def link 4dgChar Character
+hi def link 4dgSpecialStrChar 4dgSpecialChar
+hi def link 4dgString String
 hi def link 4dgStatement Statement
 hi def link 4dgLabel Label
 
