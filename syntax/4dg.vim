@@ -11,13 +11,13 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 " Integer number
-syn match 4dgNumber "\<\d\+\>"
+syn match 4dgNumber "\v<\d+>"
 
 " Hex number
-syn match 4dgNumber "\<0x\x\+\>"
+syn match 4dgNumber "\v<0x\x+>"
 
 " Binary number
-syn match 4dgNumber "\<0b[01]\+\>"
+syn match 4dgNumber "\v<0b[01]+>"
 
 syn match 4dgUserLabel "^\s*\zs\I\i*\s*:$"
 
