@@ -28,10 +28,8 @@ syn region 4dgComment start="/\*" end="\*/"
 syn cluster 4dgDirGroup contains=4dgNumber,4dgComment,4dgChar,4dgString
 
 " Constants
-syn match 4dgSub "\v%(^|\s)\zs\$" contained
-syn cluster 4dgConstGroup contains=@4dgDirGroup,4dgSub
-syn region 4dgConstant start="\v^\s*\zs#constant>" skip="\\$" end="$" keepend contains=@4dgConstGroup
-syn region 4dgConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend contains=@4dgConstGroup
+syn region 4dgConstant start="\v^\s*\zs#constant>" skip="\\$" end="$" keepend contains=@4dgDirGroup
+syn region 4dgConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend contains=@4dgDirGroup
 
 syn keyword 4dgType var
 
@@ -61,7 +59,6 @@ syn keyword 4dgLabel case default
 hi def link 4dgNumber Number
 hi def link 4dgUserLabel Label
 hi def link 4dgComment Comment
-hi def link 4dgSub Operator
 hi def link 4dgConstant Macro
 hi def link 4dgType Type
 hi def link 4dgSpecialChar SpecialChar
