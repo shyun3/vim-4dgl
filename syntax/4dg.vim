@@ -47,6 +47,12 @@ syn region 4dgString start='"' skip='\v\\\\|\\"' end='"' contains=4dgSpecialStrC
 syn keyword 4dgDataType byte word contained
 syn region 4dgData matchgroup=PreProc start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" keepend contains=@4dgDirGroup,4dgDataType
 
+syn keyword 4dgOperator sizeof argcount
+
+" Pre-processor
+syn region 4dgPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" skip="\\$" end="$" keepend contains=@4dgDirGroup
+syn match 4dgPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
+
 syn keyword 4dgStatement goto break continue return
 syn keyword 4dgLabel case default
 
@@ -63,6 +69,9 @@ hi def link 4dgChar Character
 hi def link 4dgSpecialStrChar 4dgSpecialChar
 hi def link 4dgString String
 hi def link 4dgDataType Type
+hi def link 4dgOperator Operator
+hi def link 4dgPreCondit PreCondit
+hi def link 4dgPreConditMatch 4dgPreCondit
 hi def link 4dgStatement Statement
 hi def link 4dgLabel Label
 
