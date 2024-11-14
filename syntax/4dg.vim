@@ -1,7 +1,7 @@
 " 4DGL syntax file
 " See https://resources.4dsystems.com.au/manuals/4dgl/
 
-" Check if syntax file was already loaded, see `b:current_syntax-variable`
+" See `b:current_syntax-variable`
 if exists("b:current_syntax")
   finish
 endif
@@ -60,6 +60,8 @@ syn keyword 4dgStatement goto break continue return
 syn keyword 4dgLabel case default
 
 syn match 4dgFunc "\<\h\w*\ze\_s*("
+
+syn sync minlines=1000
 
 " Define the default highlighting
 " Only applies when an item doesn't have highlighting yet
