@@ -1,5 +1,3 @@
-" 4DGL filetype plugin file
-
 " See `ftplugin`
 if exists("b:did_ftplugin")
   finish
@@ -29,12 +27,19 @@ let b:undo_ftplugin = "setlocal fo< com< cms< def< inc<"
 
 " See `matchit`
 if !exists("b:match_words")
+  let b:match_ignorecase = 0
   let b:match_words =
     \ '^\s*#\%(IF\|IFNOT\)\>:^\s*#ELSE\>:^\s*#ENDIF\>,' ..
     \ '^\s*#\%(CONST\|DATA\)\>:^\s*#END\>,' ..
-    \ '\<if\>:\<else\>:\<endif\>'
+    \ '\<if\>:\<else\>:\<endif\>,' ..
+    \ '\<while\>:\<wend\>,' ..
+    \ '\<switch\>:\<endswitch\>,' ..
+    \ '\<repeat\>:\<\%(until\|forever\)\>,' ..
+    \ '\<for\>:\<next\>,' ..
+    \ '\<func\>:\<endfunc\>'
+  let b:match_skip = 's:comment\|string\|character\|special'
 
-  let b:undo_ftplugin ..= " | unlet! b:match_words"
+  let b:undo_ftplugin ..= " | unlet! b:match_ignorecase b:match_skip b:match_words"
 endif
 
 let &cpo = s:cpo_save
