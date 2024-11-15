@@ -19,7 +19,7 @@ syn match 4dgNumber "\v<0x\x+>"
 " Binary number
 syn match 4dgNumber "\v<0b[01]+>"
 
-syn match 4dgUserLabel "^\s*\zs\I\i*\s*:$"
+syn match 4dgUserLabel "\v^\s*\zs\I\i*\ze:([^=]|$)"
 
 " Comments
 syn match 4dgComment "//.*$"
