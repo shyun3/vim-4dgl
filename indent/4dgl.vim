@@ -60,30 +60,36 @@ func s:CalcIndentImpl()
   endif
 
   " Add shiftwidth after lines that start a block
-  let indent = indent(prev_lnum)
+  let curr_indent = indent(prev_lnum)
   let prev_line = getline(prev_lnum)
   let idx = match(prev_line, '\v^\s*%(#CONST|#DATA|else|switch|func)>')
   if idx != -1
     if IsPosNotComment(prev_lnum, idx)
-      let indent += shiftwidth()
+      let curr_indent += shiftwidth()
     endif
   else
     let idx = match(prev_line, '\v^\s*%(if|while|repeat|for)>')
     if idx != -1
       " Account for single line
-      if IsPosNotComment(prev_lnum, idx) && prev_line !~ '\v;\s*(//.*)?$'
-        let indent += shiftwidth()
+      if IsPosNotComment(prev_lnum, idx)
+        let idx = match(prev_line, '\v;\s*%(/\*.*|//.*)?$')
+        if idx == -1 || !IsPosNotComment(prev_lnum, idx)
+          let curr_indent += shiftwidth()
+        endif
+      endif
       endif
     endif
   endif
 
   " Subtract shiftwidth on block end, requires 'indentkeys'
-  let idx = match(curr_line, '^\v\s*%(#END|else|endif|wend|until|forever|next|endswitch|endfunc)>')
-  if idx != -1 && IsPosNotComment(v:lnum, idx)
-      let indent -= shiftwidth()
+  let idx = match(curr_line, '\v^\s*%(#END|else|endif|wend|until|forever|next|endswitch|endfunc)>')
+  if idx != -1
+    if IsPosNotComment(v:lnum, idx)
+      let curr_indent -= shiftwidth()
+    endif
   endif
 
-  return indent
+  return curr_indent
 endfunc
 
 let &cpo = s:cpo_save
