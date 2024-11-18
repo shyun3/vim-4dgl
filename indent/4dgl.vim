@@ -77,6 +77,11 @@ func s:CalcIndentImpl()
           let curr_indent += shiftwidth()
         endif
       endif
+    else
+      " Check if previous line is a label
+      let idx = match(prev_line, '\v^\s*%(case\s+\i+|\I\i*):')
+      if idx != -1 && IsPosNotComment(prev_lnum, idx)
+        let curr_indent += shiftwidth()
       endif
     endif
   endif
@@ -86,6 +91,27 @@ func s:CalcIndentImpl()
   if idx != -1
     if IsPosNotComment(v:lnum, idx)
       let curr_indent -= shiftwidth()
+    endif
+  else
+    " Check if current line is switch case/default
+    let idx = match(curr_line, '\v^\s*%(case\s+\i+|default):')
+    if idx != -1 && IsPosNotComment(v:lnum, idx)
+      " Search backwards for a switch start or case
+      let lnum = v:lnum
+      let line_limit = max([lnum - 100, 0])   " Only search a close vicinity
+      while lnum > line_limit
+        let lnum = prevnonblank(lnum-1)
+        let line = getline(lnum)
+        let idx = match(line, '\v^\s*\zs%(case\s+\i+:|default:|switch>)')
+        if idx != -1 && IsPosNotComment(lnum, idx)
+          break
+        endif
+      endwhile
+
+      " If search succeeded, indent switch start or match label indent
+      if lnum > line_limit
+        let curr_indent = indent(lnum) + (line[idx] == 's' ? shiftwidth() : 0)
+      endif
     endif
   endif
 
