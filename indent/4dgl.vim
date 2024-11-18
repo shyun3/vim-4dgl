@@ -53,9 +53,9 @@ func s:CalcIndentImpl()
     return 0
   endif
 
-  " Check for user label
-  let idx = match(curr_line, '^\s*\I\i*:')
-  if idx != -1 && IsPosNotComment(v:lnum, idx)
+  " Check for user label (exclude `default`)
+  let matches = matchlist(curr_line, '\v^\s*(\I\i*):')
+  if len(matches) > 1 && IsPosNotComment(v:lnum, 0) && matches[1] != "default"
     return 0
   endif
 
