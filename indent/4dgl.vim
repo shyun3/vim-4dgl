@@ -12,11 +12,15 @@ set cpo&vim
 setlocal indentexpr=s:CalcIndent()
 setlocal autoindent
 
-" Remove indenting on braces, which were set by default
-setlocal indentkeys-=0{,0}
+" Remove indenting on braces, which were set by default. Also, remove indenting
+" on `:` since it seems to go by C rules (recall that 4DGL doesn't use braces).
+setlocal indentkeys-=0{
+setlocal indentkeys-=0}
+setlocal indentkeys-=:
 
-" Reindent on block end keywords (`else` is accounted for by default)
-setlocal indentkeys+=0=endif,0=wend,0=until,0=forever,0=next,0=endswitch,0=endfunc
+" Reindent on block end keywords (`else` is accounted for by default). Also,
+" reindent on any `:` for labels.
+setlocal indentkeys+=<:>,0=endif,0=wend,0=until,0=forever,0=next,0=endswitch,0=endfunc
 
 " See `undo_indent`
 let b:undo_indent = "setlocal autoindent< indentkeys< indentexpr<"
