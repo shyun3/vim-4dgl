@@ -1,0 +1,93 @@
+" 4DGL syntax file
+" See https://resources.4dsystems.com.au/manuals/4dgll/
+
+" See `b:current_syntax-variable`
+if exists("b:current_syntax")
+  finish
+endif
+
+" See `use-cpo-save`
+let s:cpo_save = &cpo
+set cpo&vim
+
+" Integer number
+syn match 4dglNumber "\v<\d+>"
+
+" Hex number
+syn match 4dglNumber "\v<0x\x+>"
+
+" Binary number
+syn match 4dglNumber "\v<0b[01]+>"
+
+syn match 4dglUserLabel "\v^\s*\zs\I\i*\ze:([^=]|$)"
+
+" Comments
+syn match 4dglComment "//.*$"
+syn region 4dglComment start="/\*" end="\*/"
+
+syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString
+
+" Constants
+syn region 4dglConstant start="\v^\s*\zs#constant>" skip="\\$" end="$" keepend contains=@4dglDirGroup
+syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup
+
+syn keyword 4dglType var
+
+" Characters
+syn match 4dglSpecialChar contained "\\[\\abfnrtv']"
+syn match 4dglChar "'[^']*'" contains=4dglSpecialChar
+
+" Strings
+syn match 4dglSpecialStrChar contained '\\[\\abfnrtv"]'
+syn region 4dglString start='"' skip='\v\\\\|\\"' end='"' contains=4dglSpecialStrChar
+
+" Data
+syn keyword 4dglDataType contained byte word
+syn region 4dglData matchgroup=4dglPreProc start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup,4dglDataType
+
+syn keyword 4dglOperator sizeof argcount
+
+" Pre-processor
+syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" skip="\\$" end="$" keepend contains=@4dglDirGroup
+syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
+syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" skip="\\$" end="$" keepend contains=@4dglDirGroup
+syn match 4dglInclude display "\v^\s*\zs#%(inherit|platform)>"
+
+syn keyword 4dglCond if else endif switch endswitch
+syn keyword 4dglRepeat while wend repeat until forever for next
+syn keyword 4dglKeyword func endfunc gosub endsub
+syn keyword 4dglStatement goto break continue return
+syn keyword 4dglLabel case default
+
+syn match 4dglFunc "\<\h\w*\ze\_s*("
+
+syn sync minlines=1000
+
+" Define the default highlighting
+" Only applies when an item doesn't have highlighting yet
+hi def link 4dglNumber Number
+hi def link 4dglUserLabel Label
+hi def link 4dglComment Comment
+hi def link 4dglConstant Macro
+hi def link 4dglType Type
+hi def link 4dglSpecialChar SpecialChar
+hi def link 4dglChar Character
+hi def link 4dglSpecialStrChar 4dglSpecialChar
+hi def link 4dglString String
+hi def link 4dglDataType Type
+hi def link 4dglOperator Operator
+hi def link 4dglPreCondit PreCondit
+hi def link 4dglPreConditMatch 4dglPreCondit
+hi def link 4dglPreProc PreProc
+hi def link 4dglInclude Include
+hi def link 4dglCond Conditional
+hi def link 4dglRepeat Repeat
+hi def link 4dglKeyword Keyword
+hi def link 4dglStatement Statement
+hi def link 4dglLabel Label
+hi def link 4dglFunc Function
+
+let b:current_syntax = "4dgl"
+
+let &cpo = s:cpo_save
+unlet s:cpo_save
