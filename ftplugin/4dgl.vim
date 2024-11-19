@@ -16,7 +16,7 @@ setlocal formatoptions-=t
 " comments, don't break long non-comment lines
 setlocal formatoptions+=croql
 
-setlocal comments=://
+setlocal comments=s1:/*,mb:*,ex:*/,://
 setlocal commentstring=//\ %s
 
 let &l:define = '^\s*#constant'
