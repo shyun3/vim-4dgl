@@ -44,18 +44,24 @@ func s:CalcIndentImpl()
     return 0
   endif
 
-  let IsPosNotComment = {lnum, idx -> synIDattr(synID(lnum, idx+1, 1), "name") !~ "Comment$"}
+  let IsPosComment = {lnum, idx -> synIDattr(synID(lnum, idx+1, 1), "name") =~ "Comment$"}
+
+  " Check if line starts with `*` inside a block comment
+  let curr_line = getline(v:lnum)
+  let idx = match(curr_line, '^\s*\*')
+  if idx != -1 && IsPosComment(v:lnum, idx)
+    return cindent(v:lnum)
+  endif
 
   " Check if line starts with `#`
-  let curr_line = getline(v:lnum)
   let idx = match(curr_line, '^\s*#')
-  if idx != -1 && IsPosNotComment(v:lnum, idx)
+  if idx != -1 && !IsPosComment(v:lnum, idx)
     return 0
   endif
 
   " Check for user label (exclude `default`)
   let matches = matchlist(curr_line, '\v^\s*(\I\i*):')
-  if len(matches) > 1 && IsPosNotComment(v:lnum, 0) && matches[1] != "default"
+  if len(matches) > 1 && !IsPosComment(v:lnum, 0) && matches[1] != "default"
     return 0
   endif
 
@@ -64,23 +70,23 @@ func s:CalcIndentImpl()
   let prev_line = getline(prev_lnum)
   let idx = match(prev_line, '\v^\s*%(#CONST|#DATA|else|switch|func)>')
   if idx != -1
-    if IsPosNotComment(prev_lnum, idx)
+    if !IsPosComment(prev_lnum, idx)
       let curr_indent += shiftwidth()
     endif
   else
     let idx = match(prev_line, '\v^\s*%(if|while|repeat|for)>')
     if idx != -1
       " Account for single line
-      if IsPosNotComment(prev_lnum, idx)
+      if !IsPosComment(prev_lnum, idx)
         let idx = match(prev_line, '\v;\s*%(/\*.*|//.*)?$')
-        if idx == -1 || !IsPosNotComment(prev_lnum, idx)
+        if idx == -1 || IsPosComment(prev_lnum, idx)
           let curr_indent += shiftwidth()
         endif
       endif
     else
       " Check if previous line is a label
       let idx = match(prev_line, '\v^\s*%(case\s+\i+|\I\i*):')
-      if idx != -1 && IsPosNotComment(prev_lnum, idx)
+      if idx != -1 && !IsPosComment(prev_lnum, idx)
         let curr_indent += shiftwidth()
       endif
     endif
@@ -89,13 +95,13 @@ func s:CalcIndentImpl()
   " Subtract shiftwidth on block end, requires 'indentkeys'
   let idx = match(curr_line, '\v^\s*%(#END|else|endif|wend|until|forever|next|endswitch|endfunc)>')
   if idx != -1
-    if IsPosNotComment(v:lnum, idx)
+    if !IsPosComment(v:lnum, idx)
       let curr_indent -= shiftwidth()
     endif
   else
     " Check if current line is switch case/default
     let idx = match(curr_line, '\v^\s*%(case\s+\i+|default):')
-    if idx != -1 && IsPosNotComment(v:lnum, idx)
+    if idx != -1 && !IsPosComment(v:lnum, idx)
       " Search backwards for a switch start or case
       let lnum = v:lnum
       let line_limit = max([lnum - 100, 0])   " Only search a close vicinity
@@ -103,7 +109,7 @@ func s:CalcIndentImpl()
         let lnum = prevnonblank(lnum-1)
         let line = getline(lnum)
         let idx = match(line, '\v^\s*\zs%(case\s+\i+:|default:|switch>)')
-        if idx != -1 && IsPosNotComment(lnum, idx)
+        if idx != -1 && !IsPosComment(lnum, idx)
           break
         endif
       endwhile
