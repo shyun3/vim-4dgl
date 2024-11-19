@@ -28,7 +28,7 @@ syn region 4dglComment start="/\*" end="\*/"
 syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString
 
 " Constants
-syn region 4dglConstant start="\v^\s*\zs#constant>" skip="\\$" end="$" keepend contains=@4dglDirGroup
+syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend contains=@4dglDirGroup
 syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup
 
 syn keyword 4dglType var
@@ -48,9 +48,9 @@ syn region 4dglData matchgroup=4dglPreProc start="\v^\s*\zs#DATA>" end="\v^\s*\z
 syn keyword 4dglOperator sizeof argcount
 
 " Pre-processor
-syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" skip="\\$" end="$" keepend contains=@4dglDirGroup
+syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend contains=@4dglDirGroup
 syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
-syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" skip="\\$" end="$" keepend contains=@4dglDirGroup
+syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$" keepend contains=@4dglDirGroup
 syn match 4dglInclude display "\v^\s*\zs#%(inherit|platform)>"
 
 syn keyword 4dglCond if else endif switch endswitch
