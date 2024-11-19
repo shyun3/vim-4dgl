@@ -36,8 +36,6 @@ syn match 4dglNumber "\v<0x\x+>"
 " Binary number
 syn match 4dglNumber "\v<0b[01]+>"
 
-syn match 4dglUserLabel "\v^\s*\zs\I\i*\ze:([^=]|$)"
-
 " Comments
 syn match 4dglComment "//.*$"
 syn region 4dglComment start="/\*" end="\*/"
@@ -60,6 +58,21 @@ syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend contains
 syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
 syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$" keepend contains=@4dglDirGroup
 syn match 4dglInclude display "\v^\s*\zs#%(inherit|platform)>"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" User labels
+syn cluster 4dglLabelGroup contains=4dglUserLabel
+
+syn match 4dglUserCont display "\v^\s*\zs\I\i*:$" contains=@4dglLabelGroup
+syn match 4dglUserCont display "\v;\s*\zs\I\i*:$" contains=@4dglLabelGroup
+
+" Avoid matching `:=` by requiring that the next character is not `=`
+syn match 4dglUserCont display "\v^\s*\zs\I\i*:[^=]"me=e-1 contains=@4dglLabelGroup
+syn match 4dglUserCont display "\v;\s*\zs\I\i*:[^=]"me=e-1 contains=@4dglLabelGroup
+
+syn match 4dglUserLabel display "\I\i*" contained
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 syn match 4dglFunc "\<\h\w*\ze\_s*("
 
