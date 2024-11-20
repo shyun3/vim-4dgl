@@ -32,14 +32,21 @@ syn region 4dglPreProcStr contained start='"' skip='\v\\\\|\\"' end='"' end='$' 
 syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" contains=4dglSpecial extend
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Flag errors caused by wrong parentheses
+syn region 4dglParen transparent start="(" end=")"
+  \ contains=TOP,4dglParenError,4dglUserLabel,@Spell
+syn match 4dglParenError display ")"
 
-" Integer number
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Numbers
+
+" Integer
 syn match 4dglNumber "\v<\d+>"
 
-" Hex number
+" Hex
 syn match 4dglNumber "\v<0x\x+>"
 
-" Binary number
+" Binary
 syn match 4dglNumber "\v<0b[01]+>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -63,6 +70,7 @@ syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend co
 syn keyword 4dglDataType contained byte word
 syn region 4dglData matchgroup=4dglPreProc start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup,4dglDataType
 
+" Conditional
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
   \ contains=4dglComment,4dglPreProcStr,4dglChar,4dglNumber,4dglCommentError
 syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
@@ -116,6 +124,7 @@ hi def link 4dglLabel Label
 hi def link 4dglFunc Function
 hi def link 4dglSpecial SpecialChar
 hi def link 4dglError Error
+hi def link 4dglParenError 4dglError
 hi def link 4dglIncluded 4dglString
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
