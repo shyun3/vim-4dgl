@@ -36,24 +36,33 @@ syn match 4dglNumber "\v<0x\x+>"
 " Binary number
 syn match 4dglNumber "\v<0b[01]+>"
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Comments
-syn match 4dglComment "//.*$"
-syn region 4dglComment start="/\*" end="\*/"
+syn match 4dglComment "//.*$" contains=@Spell
 
-syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString
+syn region 4dglComment matchgroup=4dglCommentStart start="/\*" end="\*/" contains=4dglCommentStartError,@Spell extend
+syn match 4dglCommentStartError display "/\*"me=e-1 contained
+
+syn match 4dglCommentError display "\*/"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+syn keyword 4dglType var
+syn keyword 4dglOperator sizeof argcount
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Pre-processor
+
+syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString,4dglCommentError
 
 " Constants
 syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend contains=@4dglDirGroup
 syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup
 
-syn keyword 4dglType var
-syn keyword 4dglOperator sizeof argcount
-
 " Data
 syn keyword 4dglDataType contained byte word
 syn region 4dglData matchgroup=4dglPreProc start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup,4dglDataType
 
-" Pre-processor
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend contains=@4dglDirGroup
 syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
 syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$" keepend contains=@4dglDirGroup
@@ -83,6 +92,9 @@ syn sync minlines=1000
 hi def link 4dglNumber Number
 hi def link 4dglUserLabel Label
 hi def link 4dglComment Comment
+hi def link 4dglCommentStart 4dglComment
+hi def link 4dglCommentStartError 4dglError
+hi def link 4dglCommentError 4dglError
 hi def link 4dglConstant Macro
 hi def link 4dglType Type
 hi def link 4dglChar Character
@@ -100,6 +112,7 @@ hi def link 4dglStatement Statement
 hi def link 4dglLabel Label
 hi def link 4dglFunc Function
 hi def link 4dglSpecial SpecialChar
+hi def link 4dglError Error
 
 let b:current_syntax = "4dgl"
 
