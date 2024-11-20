@@ -10,11 +10,16 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 syn keyword 4dglCond if else endif switch endswitch
 syn keyword 4dglRepeat while wend repeat until forever for next
 syn keyword 4dglKeyword func endfunc gosub endsub
 syn keyword 4dglStatement goto break continue return
 syn keyword 4dglLabel case default
+
+syn keyword 4dglType var
+syn keyword 4dglOperator sizeof argcount
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Strings and characters
@@ -46,13 +51,7 @@ syn match 4dglCommentStartError display "/\*"me=e-1 contained
 syn match 4dglCommentError display "\*/"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-syn keyword 4dglType var
-syn keyword 4dglOperator sizeof argcount
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pre-processor
-
 syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString,4dglCommentError
 
 " Constants
@@ -65,8 +64,13 @@ syn region 4dglData matchgroup=4dglPreProc start="\v^\s*\zs#DATA>" end="\v^\s*\z
 
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend contains=@4dglDirGroup
 syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
+
+" Includes
+" Included strings don't highlight escaped characters differently
+syn region 4dglIncluded display contained start='"' skip='\v\\\\|\\"' end='"'
+syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"' contains=4dglIncluded
+
 syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$" keepend contains=@4dglDirGroup
-syn match 4dglInclude display "\v^\s*\zs#%(inherit|platform)>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " User labels
@@ -87,6 +91,7 @@ syn match 4dglFunc "\<\h\w*\ze\_s*("
 
 syn sync minlines=1000
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Define the default highlighting
 " Only applies when an item doesn't have highlighting yet
 hi def link 4dglNumber Number
@@ -113,6 +118,9 @@ hi def link 4dglLabel Label
 hi def link 4dglFunc Function
 hi def link 4dglSpecial SpecialChar
 hi def link 4dglError Error
+hi def link 4dglIncluded 4dglString
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let b:current_syntax = "4dgl"
 
