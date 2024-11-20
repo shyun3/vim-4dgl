@@ -41,7 +41,7 @@ syn cluster 4dglParenGroupX contains=4dglParenError,4dglUserLabel
 
 syn region 4dglParen transparent start="(" end=")"
   \ contains=TOP,@4dglParenGroupX,4dglStringL
-syn region 4dglParenL contained transparent start="(" end=")" excludenl
+syn region 4dglParenL contained transparent start="(" end=")" end="$" excludenl
   \ contains=TOP,@4dglParenGroupX,4dglParen,4dglString
 
 syn match 4dglParenError display ")"
