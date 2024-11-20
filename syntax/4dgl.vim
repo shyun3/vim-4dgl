@@ -27,17 +27,23 @@ syn keyword 4dglOperator sizeof argcount
 " Special characters (those with backslash)
 syn match 4dglSpecial display contained "\v\\%(.|$)"
 
-syn region 4dglString start='"' skip='\v\\\\|\\"' end='"' contains=4dglSpecial,@Spell extend
-syn region 4dglPreProcStr start='"' skip='\v\\\\|\\"' end='"' end='$' contains=4dglSpecial,@Spell excludenl
+syn region 4dglString start='"' skip='\v\\\\|\\"' end='"'
+  \ contains=4dglSpecial,@Spell extend
+syn region 4dglStringL start='"' skip='\v\\\\|\\"' end='"' end='$'
+  \ contains=4dglSpecial,@Spell excludenl
 
-syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" contains=4dglSpecial extend
+syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" contains=4dglSpecial
+  \ extend
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Flag errors caused by wrong parentheses
+syn cluster 4dglParenGroupX contains=4dglParenError,4dglUserLabel
+
 syn region 4dglParen transparent start="(" end=")"
-  \ contains=TOP,4dglParenError,4dglUserLabel,4dglPreProcStr,@Spell
-syn region 4dglPreProcParen contained transparent start="(" end=")" excludenl
-  \ contains=TOP,4dglParenError,4dglParen,4dglUserLabel,4dglString,@Spell
+  \ contains=TOP,@4dglParenGroupX,4dglStringL
+syn region 4dglParenL contained transparent start="(" end=")" excludenl
+  \ contains=TOP,@4dglParenGroupX,4dglParen,4dglString
+
 syn match 4dglParenError display ")"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -56,7 +62,8 @@ syn match 4dglNumber "\v<0b[01]+>"
 " Comments
 syn match 4dglComment "//.*$" contains=@Spell
 
-syn region 4dglComment matchgroup=4dglCommentStart start="/\*" end="\*/" contains=4dglCommentStartError,@Spell extend
+syn region 4dglComment matchgroup=4dglCommentStart start="/\*" end="\*/"
+  \ contains=4dglCommentStartError,@Spell extend
 syn match 4dglCommentStartError display "/\*"me=e-1 contained
 
 syn match 4dglCommentError display "\*/"
@@ -66,31 +73,38 @@ syn match 4dglCommentError display "\*/"
 syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString,4dglCommentError
 
 " Constants
-syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend contains=@4dglDirGroup
-syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup
+syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend
+  \ contains=@4dglDirGroup
+syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend
+  \ contains=@4dglDirGroup
 
 " Data
 syn keyword 4dglDataType contained byte word
-syn region 4dglData matchgroup=4dglPreProc start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup,4dglDataType
+syn region 4dglData matchgroup=4dglPreProc
+  \ start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" keepend
+  \ contains=@4dglDirGroup,4dglDataType
 
 " Conditional
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
-  \ contains=4dglComment,4dglPreProcStr,4dglChar,4dglNumber,4dglCommentError,4dglParenError,4dglPreProcParen
+  \ contains=4dglComment,4dglStringL,4dglChar,4dglNumber,4dglCommentError,4dglParenError,4dglParenL
 syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
 
 " Includes
 " Included strings don't highlight escaped characters differently
 syn region 4dglIncluded display contained start='"' skip='\v\\\\|\\"' end='"'
-syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"' contains=4dglIncluded
+syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'
+  \ contains=4dglIncluded
 
-syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$" keepend contains=@4dglDirGroup
+syn region 4dglPreProc
+  \ start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$"
+  \ keepend contains=@4dglDirGroup
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " User labels
 
 " Don't highlight as label if the `?` of a ternary starts on a previous line
 syn region 4dglTernary transparent start="?" end=":"
-  \ contains=TOP,4dglUserLabel,4dglPreProcStr,@Spell
+  \ contains=TOP,4dglUserLabel,4dglStringL
 
 syn match 4dglUserLabel display "\v%(^|;)\s*\zs\I\i*\ze:%([^=]|$)"
 
@@ -113,7 +127,7 @@ hi def link 4dglConstant Macro
 hi def link 4dglType Type
 hi def link 4dglChar Character
 hi def link 4dglString String
-hi def link 4dglPreProcStr 4dglString
+hi def link 4dglStringL 4dglString
 hi def link 4dglDataType Type
 hi def link 4dglOperator Operator
 hi def link 4dglPreCondit PreCondit
