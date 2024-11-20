@@ -28,6 +28,7 @@ syn keyword 4dglOperator sizeof argcount
 syn match 4dglSpecial display contained "\v\\%(.|$)"
 
 syn region 4dglString start='"' skip='\v\\\\|\\"' end='"' contains=4dglSpecial,@Spell extend
+syn region 4dglPreProcStr contained start='"' skip='\v\\\\|\\"' end='"' end='$' contains=4dglSpecial,@Spell excludenl
 syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" contains=4dglSpecial extend
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -62,7 +63,8 @@ syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend co
 syn keyword 4dglDataType contained byte word
 syn region 4dglData matchgroup=4dglPreProc start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" keepend contains=@4dglDirGroup,4dglDataType
 
-syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend contains=@4dglDirGroup
+syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
+  \ contains=4dglComment,4dglPreProcStr,4dglChar,4dglNumber,4dglCommentError
 syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
 
 " Includes
@@ -99,6 +101,7 @@ hi def link 4dglConstant Macro
 hi def link 4dglType Type
 hi def link 4dglChar Character
 hi def link 4dglString String
+hi def link 4dglPreProcStr 4dglString
 hi def link 4dglDataType Type
 hi def link 4dglOperator Operator
 hi def link 4dglPreCondit PreCondit
