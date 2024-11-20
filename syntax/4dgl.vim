@@ -28,13 +28,16 @@ syn keyword 4dglOperator sizeof argcount
 syn match 4dglSpecial display contained "\v\\%(.|$)"
 
 syn region 4dglString start='"' skip='\v\\\\|\\"' end='"' contains=4dglSpecial,@Spell extend
-syn region 4dglPreProcStr contained start='"' skip='\v\\\\|\\"' end='"' end='$' contains=4dglSpecial,@Spell excludenl
+syn region 4dglPreProcStr start='"' skip='\v\\\\|\\"' end='"' end='$' contains=4dglSpecial,@Spell excludenl
+
 syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" contains=4dglSpecial extend
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Flag errors caused by wrong parentheses
 syn region 4dglParen transparent start="(" end=")"
-  \ contains=TOP,4dglParenError,4dglUserLabel,@Spell
+  \ contains=TOP,4dglParenError,4dglUserLabel,4dglPreProcStr,@Spell
+syn region 4dglPreProcParen contained transparent start="(" end=")" excludenl
+  \ contains=TOP,4dglParenError,4dglParen,4dglUserLabel,4dglString,@Spell
 syn match 4dglParenError display ")"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -72,7 +75,7 @@ syn region 4dglData matchgroup=4dglPreProc start="\v^\s*\zs#DATA>" end="\v^\s*\z
 
 " Conditional
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
-  \ contains=4dglComment,4dglPreProcStr,4dglChar,4dglNumber,4dglCommentError
+  \ contains=4dglComment,4dglPreProcStr,4dglChar,4dglNumber,4dglCommentError,4dglParenError,4dglPreProcParen
 syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
 
 " Includes
@@ -86,7 +89,8 @@ syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STA
 " User labels
 
 " Don't highlight as label if the `?` of a ternary starts on a previous line
-syn region 4dglTernary transparent start="?" end=":" contains=TOP,4dglUserLabel,@Spell
+syn region 4dglTernary transparent start="?" end=":"
+  \ contains=TOP,4dglUserLabel,4dglPreProcStr,@Spell
 
 syn match 4dglUserLabel display "\v%(^|;)\s*\zs\I\i*\ze:%([^=]|$)"
 
