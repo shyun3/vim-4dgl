@@ -74,16 +74,11 @@ syn region 4dglPreProc start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STA
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " User labels
-syn cluster 4dglLabelGroup contains=4dglUserLabel
 
-syn match 4dglUserCont display "\v^\s*\zs\I\i*:$" contains=@4dglLabelGroup
-syn match 4dglUserCont display "\v;\s*\zs\I\i*:$" contains=@4dglLabelGroup
+" Don't highlight as label if the `?` of a ternary starts on a previous line
+syn region 4dglTernary transparent start="?" end=":" contains=TOP,4dglUserLabel,@Spell
 
-" Avoid matching `:=` by requiring that the next character is not `=`
-syn match 4dglUserCont display "\v^\s*\zs\I\i*:[^=]"me=e-1 contains=@4dglLabelGroup
-syn match 4dglUserCont display "\v;\s*\zs\I\i*:[^=]"me=e-1 contains=@4dglLabelGroup
-
-syn match 4dglUserLabel display "\I\i*" contained
+syn match 4dglUserLabel display "\v%(^|;)\s*\zs\I\i*\ze:%([^=]|$)"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
