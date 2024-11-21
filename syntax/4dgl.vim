@@ -18,7 +18,7 @@ syn keyword 4dglKeyword func endfunc gosub endsub
 syn keyword 4dglStatement goto break continue return
 syn keyword 4dglLabel case default
 
-syn keyword 4dglType var
+syn keyword 4dglType var byte word
 syn keyword 4dglOperator sizeof argcount
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -75,10 +75,9 @@ syn region 4dglPreProc
   \ keepend contains=TOP,@4dglDirGroupX,@Spell
 
 " Block directives
-syn keyword 4dglDataType contained byte word
 syn region 4dglData matchgroup=4dglPreProc
   \ start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>"
-  \ contains=@4dglDirGroup,4dglDataType
+  \ contains=@4dglDirGroup
 syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>"
   \ contains=@4dglDirGroup
 
@@ -122,7 +121,6 @@ hi def link 4dglConstant Macro
 hi def link 4dglType Type
 hi def link 4dglChar Character
 hi def link 4dglString String
-hi def link 4dglDataType Type
 hi def link 4dglOperator Operator
 hi def link 4dglPreCondit PreCondit
 hi def link 4dglPreConditMatch 4dglPreCondit
