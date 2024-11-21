@@ -66,17 +66,21 @@ syn match 4dglCommentError display "\*/"
 " Pre-processor
 syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString,4dglCommentError
 
-" Constants
+" Single-line directives
+syn cluster 4dglDirGroupX contains=4dglUserLabel,4dglFunc
 syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend
-  \ contains=@4dglDirGroup
-syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>"
-  \ contains=@4dglDirGroup
+  \ contains=TOP,@4dglDirGroupX,@Spell
+syn region 4dglPreProc
+  \ start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$"
+  \ keepend contains=TOP,@4dglDirGroupX,@Spell
 
-" Data
+" Block directives
 syn keyword 4dglDataType contained byte word
 syn region 4dglData matchgroup=4dglPreProc
   \ start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>"
   \ contains=@4dglDirGroup,4dglDataType
+syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>"
+  \ contains=@4dglDirGroup
 
 " Conditional
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
@@ -89,10 +93,6 @@ syn region 4dglIncluded display contained oneline
   \ start='"' skip='\v\\\\|\\"' end='"'
 syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'
   \ contains=4dglIncluded
-
-syn region 4dglPreProc
-  \ start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$"
-  \ keepend contains=@4dglDirGroup
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " User labels
