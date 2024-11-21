@@ -71,8 +71,9 @@ syn cluster 4dglDirGroupX contains=4dglUserLabel,4dglFunc
 syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend
   \ contains=TOP,@4dglDirGroupX,@Spell
 syn region 4dglPreProc
-  \ start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|STOP|USE|MODE|STACK)>" end="$"
-  \ keepend contains=TOP,@4dglDirGroupX,@Spell
+  \ start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|USE|MODE|STACK)>" end="$" keepend
+  \ contains=TOP,@4dglDirGroupX,@Spell
+syn match 4dglPreProc "\v^\s*\zs#STOP>"
 
 " Block directives
 syn region 4dglData matchgroup=4dglPreProc
@@ -89,7 +90,7 @@ syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
 " Includes
 " Included strings don't highlight escaped characters differently
 syn region 4dglIncluded display contained start='"' skip='\v\\\\|\\"' end='"'
-syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'
+syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'he=e-1
   \ contains=4dglIncluded
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
