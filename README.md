@@ -12,3 +12,7 @@ Example for [Lazy](https://lazy.folke.io):
 ```sh
 "shyun3/vim-4dgl"
 ```
+
+## License
+
+Uses the Vim license. See `:help license`.
