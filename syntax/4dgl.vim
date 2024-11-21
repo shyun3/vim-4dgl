@@ -19,7 +19,7 @@ syn keyword 4dglRepeat while wend repeat until forever for next
 syn keyword 4dglKeyword func endfunc gosub endsub
 syn keyword 4dglStatement goto break continue return
 syn keyword 4dglLabel case default
-
+syn keyword 4dglStorageClass private
 syn keyword 4dglType var byte word
 syn keyword 4dglOperator sizeof argcount
 
@@ -121,6 +121,7 @@ hi def link 4dglKeyword Keyword
 hi def link 4dglStatement Statement
 hi def link 4dglLabel Label
 hi def link 4dglUserLabel Label
+hi def link 4dglStorageClass StorageClass
 hi def link 4dglType Type
 hi def link 4dglOperator Operator
 hi def link 4dglChar Character
