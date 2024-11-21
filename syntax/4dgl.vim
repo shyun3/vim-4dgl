@@ -85,7 +85,7 @@ syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend
 
 " Conditional
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
-  \ contains=4dglComment,4dglChar,4dglNumber,4dglCommentError,4dglParenError,4dglParen
+  \ contains=4dglComment,4dglChar,4dglString,4dglNumber,4dglCommentError,4dglParenError,4dglParen
 syn match 4dglPreCondit display "\v^\s*\zs#%(ELSE|ENDIF)>"
 
 " Includes
