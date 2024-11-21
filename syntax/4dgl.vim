@@ -27,10 +27,10 @@ syn keyword 4dglOperator sizeof argcount
 " Special characters (those with backslash)
 syn match 4dglSpecial display contained "\v\\%(.|$)"
 
-syn region 4dglString start='"' skip='\v\\\\|\\"' end='"'
+syn region 4dglString start='"' skip='\v\\\\|\\"' end='"' oneline
   \ contains=4dglSpecial,@Spell
 
-syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'"
+syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" oneline
   \ contains=4dglSpecial
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -90,7 +90,8 @@ syn match 4dglPreCondit display "\v^\s*\zs#%(ELSE|ENDIF)>"
 
 " Includes
 " Included strings don't highlight escaped characters differently
-syn region 4dglIncluded display contained start='"' skip='\v\\\\|\\"' end='"'
+syn region 4dglIncluded display contained oneline
+  \ start='"' skip='\v\\\\|\\"' end='"'
 syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'he=e-1
   \ contains=4dglIncluded
 
