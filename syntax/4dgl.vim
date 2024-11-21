@@ -10,6 +10,8 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
+syn case match
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 syn keyword 4dglCond if else endif switch endswitch
