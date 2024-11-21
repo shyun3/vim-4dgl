@@ -36,7 +36,7 @@ syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Flag errors caused by wrong parentheses
 syn region 4dglParen transparent start="(" end=")"
-  \ contains=TOP,4dglParenError,4dglUserLabel
+  \ contains=TOP,4dglParenError,4dglUserLabel,@Spell
 
 syn match 4dglParenError display ")"
 
@@ -69,13 +69,13 @@ syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString,4dg
 " Constants
 syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend
   \ contains=@4dglDirGroup
-syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend
+syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>"
   \ contains=@4dglDirGroup
 
 " Data
 syn keyword 4dglDataType contained byte word
 syn region 4dglData matchgroup=4dglPreProc
-  \ start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" keepend
+  \ start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>"
   \ contains=@4dglDirGroup,4dglDataType
 
 " Conditional
@@ -97,7 +97,8 @@ syn region 4dglPreProc
 " User labels
 
 " Don't highlight as label if the `?` of a ternary starts on a previous line
-syn region 4dglTernary transparent start="?" end=":" contains=TOP,4dglUserLabel
+syn region 4dglTernary transparent start="?" end=":"
+  \ contains=TOP,4dglUserLabel,@Spell
 
 syn match 4dglUserLabel display "\v%(^|;)\s*\zs\I\i*\ze:%([^=]|$)"
 
