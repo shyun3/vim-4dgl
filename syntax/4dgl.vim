@@ -85,7 +85,8 @@ syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
 
 " Includes
 " Included strings don't highlight escaped characters differently
-syn region 4dglIncluded display contained start='"' skip='\v\\\\|\\"' end='"'
+syn region 4dglIncluded display contained oneline
+  \ start='"' skip='\v\\\\|\\"' end='"'
 syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'
   \ contains=4dglIncluded
 
