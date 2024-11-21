@@ -113,30 +113,30 @@ syn sync minlines=1000
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Define the default highlighting
 " Only applies when an item doesn't have highlighting yet
-hi def link 4dglNumber Number
-hi def link 4dglUserLabel Label
-hi def link 4dglComment Comment
-hi def link 4dglCommentStart 4dglComment
-hi def link 4dglCommentStartError 4dglError
-hi def link 4dglCommentError 4dglError
-hi def link 4dglConstant Macro
-hi def link 4dglType Type
-hi def link 4dglChar Character
-hi def link 4dglString String
-hi def link 4dglOperator Operator
-hi def link 4dglPreCondit PreCondit
-hi def link 4dglPreProc PreProc
-hi def link 4dglInclude Include
 hi def link 4dglCond Conditional
 hi def link 4dglRepeat Repeat
 hi def link 4dglKeyword Keyword
 hi def link 4dglStatement Statement
 hi def link 4dglLabel Label
-hi def link 4dglFunc Function
+hi def link 4dglUserLabel Label
+hi def link 4dglType Type
+hi def link 4dglOperator Operator
+hi def link 4dglChar Character
 hi def link 4dglSpecial SpecialChar
+hi def link 4dglString String
+hi def link 4dglNumber Number
 hi def link 4dglError Error
 hi def link 4dglParenError 4dglError
+hi def link 4dglComment Comment
+hi def link 4dglCommentStart 4dglComment
+hi def link 4dglCommentStartError 4dglError
+hi def link 4dglCommentError 4dglError
+hi def link 4dglConstant Macro
+hi def link 4dglPreCondit PreCondit
+hi def link 4dglPreProc PreProc
+hi def link 4dglInclude Include
 hi def link 4dglIncluded 4dglString
+hi def link 4dglFunc Function
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
