@@ -86,7 +86,7 @@ syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>"
 " Conditional
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
   \ contains=4dglComment,4dglChar,4dglNumber,4dglCommentError,4dglParenError,4dglParen
-syn match 4dglPreConditMatch display "\v^\s*\zs#%(ELSE|ENDIF)>"
+syn match 4dglPreCondit display "\v^\s*\zs#%(ELSE|ENDIF)>"
 
 " Includes
 " Included strings don't highlight escaped characters differently
@@ -124,7 +124,6 @@ hi def link 4dglChar Character
 hi def link 4dglString String
 hi def link 4dglOperator Operator
 hi def link 4dglPreCondit PreCondit
-hi def link 4dglPreConditMatch 4dglPreCondit
 hi def link 4dglPreProc PreProc
 hi def link 4dglInclude Include
 hi def link 4dglCond Conditional
