@@ -64,7 +64,6 @@ syn match 4dglCommentError display "\*/"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pre-processor
-syn cluster 4dglDirGroup contains=4dglNumber,4dglComment,4dglChar,4dglString,4dglCommentError
 
 " Single-line directives
 syn cluster 4dglDirGroupX contains=4dglUserLabel,4dglFunc
@@ -76,11 +75,13 @@ syn region 4dglPreProc
 syn match 4dglPreProc "\v^\s*\zs#STOP>"
 
 " Block directives
+syn cluster 4dglBlockDirGroupX
+  \ contains=4dglPreProc,4dglPreCondit,4dglInclude,4dglData,4dglConstant
 syn region 4dglData matchgroup=4dglPreProc
   \ start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>"
-  \ contains=@4dglDirGroup
+  \ contains=TOP,@4dglBlockDirGroupX
 syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>"
-  \ contains=@4dglDirGroup
+  \ contains=TOP,@4dglBlockDirGroupX
 
 " Conditional
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
