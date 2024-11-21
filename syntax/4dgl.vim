@@ -77,10 +77,10 @@ syn match 4dglPreProc "\v^\s*\zs#STOP>"
 " Block directives
 syn cluster 4dglBlockDirGroupX
   \ contains=4dglPreProc,4dglPreCondit,4dglInclude,4dglData,4dglConstant
-syn region 4dglData matchgroup=4dglPreProc
+syn region 4dglData matchgroup=4dglPreProc keepend
   \ start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>"
   \ contains=TOP,@4dglBlockDirGroupX
-syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>"
+syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend
   \ contains=TOP,@4dglBlockDirGroupX
 
 " Conditional
