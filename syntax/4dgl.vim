@@ -38,7 +38,7 @@ syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" oneline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Flag errors caused by wrong parentheses
 syn region 4dglParen transparent start="(" end=")"
-  \ contains=TOP,4dglParenError,4dglUserLabel,@Spell
+  \ contains=TOP,4dglParenError,4dglUserLabel
 
 syn match 4dglParenError display ")"
 
@@ -70,10 +70,10 @@ syn match 4dglCommentError display "\*/"
 " Single-line directives
 syn cluster 4dglDirGroupX contains=4dglUserLabel,4dglFunc
 syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend
-  \ contains=TOP,@4dglDirGroupX,@Spell
+  \ contains=TOP,@4dglDirGroupX
 syn region 4dglPreProc
   \ start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|USE|MODE|STACK)>" end="$" keepend
-  \ contains=TOP,@4dglDirGroupX,@Spell
+  \ contains=TOP,@4dglDirGroupX
 syn match 4dglPreProc "\v^\s*\zs#STOP>"
 
 " Block directives
@@ -102,7 +102,7 @@ syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'he=e-1
 
 " Don't highlight as label if the `?` of a ternary starts on a previous line
 syn region 4dglTernary transparent start="?" end=":"
-  \ contains=TOP,4dglUserLabel,@Spell
+  \ contains=TOP,4dglUserLabel
 
 syn match 4dglUserLabel display "\v%(^|;)\s*\zs\I\i*\ze:%([^=]|$)"
 
