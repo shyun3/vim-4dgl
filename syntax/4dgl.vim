@@ -24,7 +24,7 @@ syn keyword 4dglType var byte word
 syn keyword 4dglOperator sizeof argcount
 
 syn match 4dglOperator "\v%([:=]\=|[-&*+/%!|^<>]\=?|\~)"
-syn match 4dglDelim "[,;[\]]"
+syn match 4dglDelim "[,;]"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Strings and characters
@@ -40,11 +40,14 @@ syn region 4dglString start='"' skip='\v\\\\|\\"' end='"' oneline
 syn match 4dglChar "\v'%(\\[\'\\]|\\?[^'\\]){1,2}'" contains=4dglSpecial
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Flag errors caused by wrong parentheses
+" Flag errors caused by wrong parentheses/brackets
 syn region 4dglParen transparent matchgroup=4dglDelim start="(" end=")"
   \ contains=TOP,4dglParenError,4dglUserLabel
-
 syn match 4dglParenError display ")"
+
+syn region 4dglBracket transparent matchgroup=4dglDelim start="\[" end="\]"
+  \ contains=TOP,4dglBracketError,4dglUserLabel
+syn match 4dglBracketError display "\]"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Numbers
@@ -138,6 +141,7 @@ hi def link 4dglString String
 hi def link 4dglNumber Number
 hi def link 4dglError Error
 hi def link 4dglParenError 4dglError
+hi def link 4dglBracketError 4dglError
 hi def link 4dglComment Comment
 hi def link 4dglCommentStart 4dglComment
 hi def link 4dglCommentStartError 4dglError
