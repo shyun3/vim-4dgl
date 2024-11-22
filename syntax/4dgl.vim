@@ -23,6 +23,9 @@ syn keyword 4dglStorageClass private
 syn keyword 4dglType var byte word
 syn keyword 4dglOperator sizeof argcount
 
+syn match 4dglOperator "\v%([:=]\=|[-&*+/%!|^<>]\=?|\~)"
+syn match 4dglDelim "[,;[\]]"
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Strings and characters
 
@@ -37,7 +40,7 @@ syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" oneline
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Flag errors caused by wrong parentheses
-syn region 4dglParen transparent start="(" end=")"
+syn region 4dglParen transparent matchgroup=4dglDelim start="(" end=")"
   \ contains=TOP,4dglParenError,4dglUserLabel
 
 syn match 4dglParenError display ")"
@@ -101,9 +104,10 @@ syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'he=e-1
 " User labels
 
 " Don't highlight as label if the `?` of a ternary starts on a previous line
-syn region 4dglTernary transparent start="?" end=":"
+syn region 4dglTernary matchgroup=4dglOperator transparent start="?" end=":"
   \ contains=TOP,4dglUserLabel
 
+" Make sure not to match beginning of assignment operator
 syn match 4dglUserLabel display "\v%(^|;)\s*\zs\I\i*\ze:%([^=]|$)"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -124,6 +128,7 @@ hi def link 4dglUserLabel Label
 hi def link 4dglStorageClass StorageClass
 hi def link 4dglType Type
 hi def link 4dglOperator Operator
+hi def link 4dglDelim Delimiter
 hi def link 4dglChar Character
 hi def link 4dglSpecial SpecialChar
 hi def link 4dglString String
