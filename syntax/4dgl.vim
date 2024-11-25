@@ -83,10 +83,11 @@ syn region 4dglPreProc
 syn match 4dglPreProc display "\v^\s*\zs#STOP>"
 
 " Block directives
-syn region 4dglData matchgroup=4dglPreProc keepend
+syn region 4dglData transparent matchgroup=4dglPreProc keepend
   \ start="\v^\s*\zs#DATA>" end="\v^\s*\zs#END>" contains=TOP,4dglUserLabel
-syn region 4dglConstant start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" keepend
-  \ contains=TOP,4dglUserLabel
+syn region 4dglConstBlock matchgroup=4dglConstant keepend
+  \ start="\v^\s*\zs#CONST>" end="\v^\s*\zs#END>" contains=TOP,4dglUserLabel
+syn match 4dglError display "\v^\s*\zs#END>"
 
 " Conditional
 syn region 4dglPreCondit start="\v^\s*\zs#%(IF|IFNOT)>" end="$" keepend
@@ -141,6 +142,7 @@ hi def link 4dglCommentStart 4dglComment
 hi def link 4dglCommentStartError 4dglError
 hi def link 4dglCommentError 4dglError
 hi def link 4dglConstant Macro
+hi def link 4dglConstBlock Macro
 hi def link 4dglPreCondit PreCondit
 hi def link 4dglPreProc PreProc
 hi def link 4dglInclude Include
