@@ -30,14 +30,13 @@ syn match 4dglDelim "[,;]"
 " Strings and characters
 
 " Special characters (those with backslash)
-syn match 4dglSpecial display contained "\v\\."
+syn match 4dglSpecial display contained "\v\\(.|$)"
 
-" Strings that span multiple lines seem to be truncated
-syn region 4dglString start='"' skip='\v\\\\|\\"' end='"' oneline
+syn region 4dglString start='"' skip='\v\\\\|\\"' end='"' extend
   \ contains=4dglSpecial,@Spell
 
-" Characters longer than 16 bits are truncated
-syn match 4dglChar "\v'%(\\[\'\\]|\\?[^'\\]){1,2}'" contains=4dglSpecial
+syn region 4dglChar start="'" skip="\v\\\\|\\'" end="'" extend
+  \ contains=4dglSpecial
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Flag errors caused by wrong parentheses/brackets
@@ -102,9 +101,7 @@ syn match 4dglInclude display '\v^\s*\zs#%(inherit|platform)>\s*"'he=e-1
   \ contains=4dglIncluded
 
 " Included strings don't highlight escaped characters differently
-" Strings that span multiple lines seem to be truncated
-syn region 4dglIncluded display contained oneline
-  \ start='"' skip='\v\\\\|\\"' end='"'
+syn region 4dglIncluded contained start='"' skip='\v\\\\|\\"' end='"'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " User labels
