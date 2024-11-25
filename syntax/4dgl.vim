@@ -23,8 +23,8 @@ syn keyword 4dglStorageClass private
 syn keyword 4dglType var byte word
 syn keyword 4dglOperator sizeof argcount
 
-syn match 4dglOperator "\v%([:=]\=|[-&*+/%!|^<>]\=?|\~)"
-syn match 4dglDelim "[,;]"
+syn match 4dglOperator display "\v%([:=]\=|[-&*+/%!|^<>]\=?|\~)"
+syn match 4dglDelim display "[,;]"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Strings and characters
@@ -52,13 +52,13 @@ syn match 4dglBracketError display "\]"
 " Numbers
 
 " Integer
-syn match 4dglNumber "\v<\d+>"
+syn match 4dglNumber display "\v<\d+>"
 
 " Hex
-syn match 4dglNumber "\v<0x\x+>"
+syn match 4dglNumber display "\v<0x\x+>"
 
 " Binary
-syn match 4dglNumber "\v<0b[01]+>"
+syn match 4dglNumber display "\v<0b[01]+>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Comments
@@ -80,7 +80,7 @@ syn region 4dglConstant start="\v^\s*\zs#constant>" end="$" keepend
 syn region 4dglPreProc
   \ start="\v^\s*\zs#%(MESSAGE|NOTICE|ERROR|USE|MODE|STACK)>" end="$" keepend
   \ contains=TOP,@4dglDirGroupX
-syn match 4dglPreProc "\v^\s*\zs#STOP>"
+syn match 4dglPreProc display "\v^\s*\zs#STOP>"
 
 " Block directives
 syn region 4dglData matchgroup=4dglPreProc keepend
