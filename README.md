@@ -10,7 +10,7 @@ Use your favorite plugin manager!
 
 Example for [Lazy](https://lazy.folke.io):
 ```sh
-"shyun3/vim-4dgl"
+{ "shyun3/vim-4dgl", ft = "4dgl" }
 ```
 
 ## License
